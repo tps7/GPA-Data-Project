@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import gpadata
+import dataredo
 
 
 app = Flask(__name__)
@@ -13,7 +14,10 @@ returns-template for home page
 
 @app.route('/')
 def mainpage():
-    return render_template("website code.html")
+    # dataredo.run("CS")
+    # dataredo.main()
+    # print(dataredo.alldata)
+    return render_template("websitecode.html")
 
 
 """
@@ -46,10 +50,13 @@ returns data page with webpage
 
 @app.route('/datascreen/<name>')
 def datascreen(name):
-    x = gpadata.make_dataframe(name)
+    #x = gpadata.make_dataframe(name)
+    dataredo.run(text)
+    dataredo.main()
+    x = dataredo.make_dataframe()
     if (type(x) == str):
         return "error not a valid subject"
-    return render_template("makedata.html", data=x.to_html())
+    return render_template("datafile.html", data=x.to_html())
 
 
 """
@@ -64,17 +71,15 @@ it either sorts the data, reccomends a class time or goes back to the home page
 def goback():
     if request.method == "POST":
         if request.form['submit button'] == 'reset':
-            return render_template("website code.html")
+            return render_template("websitecode.html")
         elif request.form['submit button'] == 'sort':
-            x = gpadata.make_sorted_dataframe(text)
-            return render_template("makedata.html", data=x.to_html())
+            dataredo.alldata.sort(key=lambda x: x[4], reverse=True)
+            x = dataredo.make_dataframe()
+            return render_template("datafile.html", data=x.to_html())
         elif request.form['submit button'] == 'reverse_sort':
-            x = gpadata.make_reverse_sorted_dataframe(text)
-            return render_template("makedata.html", data=x.to_html())
-        elif request.form['submit button'] == 'reccomend':
-            x = gpadata.make_sorted_dataframe(text)
-            return render_template("makedata.html", data = x.to_html())
-
+            dataredo.alldata.sort(key=lambda x: x[4], reverse=False)
+            x = dataredo.make_dataframe()
+            return render_template("datafile.html", data=x.to_html())
         else:
             return "error"
 

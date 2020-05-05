@@ -14,6 +14,33 @@ instructor = df['Primary Instructor'].values
 course_number = df['Number'].values
 
 """
+run
+inputs: the input from the website in the format it would be on the website
+This function will be called in main it basically sets up all the functions to run.
+This function sets up the local varible input which holds the input from the website.
+Input is submited in format [Subject, Number, Year/Sem] code only works if inputs are in that order;
+outputs list of inputs
+"""
+
+orginput = ""
+input = []
+def run(inputs):
+    orginput = inputs
+    inputs = inputs.split()
+    if inputs[0] not in subject:
+        return "error not a valid subject"
+    correct_size = True
+    while correct_size:
+        if (len(inputs) < 3):
+            inputs.append("")
+        else:
+            correct_size = False
+    global input
+    input = inputs
+    return
+
+
+"""
 calcGPA: Calculates Grade Point Average
 inputs: grades- a list of ints length 12 ordered in A+, A..., F format. 
 These grades are only for one Class section.
@@ -33,8 +60,12 @@ def calcGPA(grades):
 #list that stores all of the data
 alldata = [[]]
 
-def makedata(abrv, number = "", year =""):
-    print(year)
+def makedata():
+    global alldata
+    alldata = [[]]
+    abrv = input[0]
+    number = input[1]
+    year = input[2]
     if (abrv not in subject):
         return "error not a valid subject"
     i = 0
@@ -128,7 +159,8 @@ returns-list with year/seimister, course number and average gpa for that course 
 """
 
 
-def avegpa_year(abrv):
+def avegpa_year():
+    abrv = input[0]
     gpa_year = [[]]
     gpa_sum = 0.0
     gpa = 0.0
@@ -171,10 +203,18 @@ def avegpa_year(abrv):
             gpa_sum = gpa_sum + alldata[k][4]
     return gpa_year
 
+websiteData = pandas.DataFrame()
+
+def make_dataframe():
+    data = pandas.DataFrame(alldata, columns=["Class", "Year and Seimester", "Course Number", "Instructor", "GPA", "# of students"])
+    # global websiteData
+    # websiteData = data
+    return data
 
 
 def main():
-    makedata("CS")
+    # run(input)
+    makedata()
     agpa = calc_course_average()
     # print(agpa)
     # print(alldata)
