@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Output</title>
+</head>
+<body>
+<form action ="http://localhost:5000/datascreen" method = "post">
+    <button type = "submit" name = "submit button" value = "reset">go back</button>
+    <button type = "submit" name = "submit button" value = "sort">sort by highest GPA</button>
+    <button type = "submit" name = "submit button" value = "reverse_sort">sort by lowest GPA</button>
+    <button type = "submit" name = "submit button" value = "reccomend">reccomends time for 2019</button>
+</form>
+<p>Notes on Data: The main set of data without the times is shows the gpa for each individual class. So if there were two diffrent
+sections of the class offered it would have two gpa's. On the other hand, the data with the times is the average gpa for each year/semister term.
+For example, there were two sections offered for a class only one gpa would show and it would be the average for the two classes.
+If both charts are blank that means the class probabaly does not exist. For example CS 103 is not a class so there is no
+data for it. Also the data only goes back to 2010 so years before that will not show any data, and there is not time data for summer classes.</p>
+{{rec | safe}}
+<h1><center>Data</center></h1>
+<center>{{data | safe}}</center>
+<h2><center>Time</center></h2>
+<center>{{time | safe}}</center>
+</body>
+</html>

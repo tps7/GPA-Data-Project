@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="text-align:center">
+<h1>GPA By Class Time</h1></div>
+<form action = "http://localhost:5000/data" method = "post">
+    Type in class abbreviation (eg: CS = Computer Science).
+    <p>If you want to narrow the search enter the year/semister and/or the course number seperated by a space.
+    For example CS 125 would be entered as CS 125 and CS 125 in the 2018 spring semister would be CS 125 2018-sp</p>
+    <p>Note: 2018-sp stands for the year of 2018 in the spring seimester. fa is the abbreviation fall.</p>
+Class Abbreviation: <input type = "text" name = abrvbox value = "">
+    <button type = "submit" name = "search" value = "search">Search</button>
+    <p></p><a href="http://tinypic.com?ref=14ihooz" target="_blank"><img src="http://i63.tinypic.com/14ihooz.png" border="0" alt = "Chart showing GPA data by class time for all classes"></a>
+    </form>
+</body>
+</html>
