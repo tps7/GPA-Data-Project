@@ -2,6 +2,7 @@ import pandas
 import matplotlib as plt
 import numpy as np
 
+#first commit
 pandas.set_option('display.max_columns', 500)
 df = pandas.read_csv('uiuc-gpa-dataset.csv')
 grade_data = df[['A+', 'A', 'A-', 'B+', 'B', 'B-', \
@@ -165,7 +166,6 @@ def avegpa_year(abrv):
         elif (alldata[k][2] not in gpa_year[index]):
             gpa_year[index].append(alldata[k][2])
             gpa_year[index].append(alldata[k][4])
-            gpa_sum = alldata[k][4]
         else:  # duplicate year and course number (2 or more offerings of that course in a year)
             num = num + 1
             gpa_sum = gpa_sum + alldata[k][4]
