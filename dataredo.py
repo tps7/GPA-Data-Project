@@ -1,5 +1,5 @@
 import pandas
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 #first commit
@@ -8,7 +8,7 @@ df = pandas.read_csv('uiuc-gpa-dataset.csv')
 grade_data = df[['A+', 'A', 'A-', 'B+', 'B', 'B-', \
                  'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']].values
 course_title = df['Course Title'].values
-subject = df[['Subject']].values
+subject = df['Subject'].values
 years = df['YearTerm'].values
 instructor = df['Primary Instructor'].values
 course_number = df['Number'].values
@@ -51,15 +51,30 @@ returns-gpa of the class
 
 
 def calcGPA(grades):
-    out = 0.
-    for k in zip(grades, [4., 4., 3.67, 3.33, 3., 2.67, 2.33, 2., 1.67, 1.33, 1., 0.67, 0.]):
-        out += int(k[0]) * k[1]
-    return round(out / sum([int(k) for k in grades]), 2)
+    sums = 0
+    sums += grades[0] * 4
+    sums += grades[1] * 4
+    sums += grades[2] * 3.67
+    sums += grades[3] * 3.33
+    sums += grades[4] * 3
+    sums += grades[5] * 2.67
+    sums += grades[6] * 2.33
+    sums += grades[7] * 2
+    sums += grades[8] * 1.67
+    sums += grades[9] * 1.33
+    sums += grades[10] * 1
+    sums += grades[11] * .67
+    sums += grades[12] * 0
+    students = sum(grades)
+    return round(sums / students, 2)
+    # out = 0.
+    # for k in zip(grades[0: 12], [4., 4., 3.67, 3.33, 3., 2.67, 2.33, 2., 1.67, 1.33, 1., 0.67, 0.]):
+    #     out += int(k[0]) * k[1]
+    # return round(out / sum([int(k) for k in grades[0 : 12]]), 2)
 
 
 #list that stores all of the data
 alldata = [[]]
-
 def makedata():
     global alldata
     alldata = [[]]
@@ -122,25 +137,24 @@ def makedata():
 
 
 
-#not true average just average by section, mean may be communitive
 
-def calc_course_average():
-    if not alldata:
-        return "No course has been selected yet"
-    dictf = dict()
+def getMean():
+    classGrades = dict()
     courses = []
-    for k in range(0, len(alldata)):
-        if alldata[k][2] in dictf.keys():
-            l = dictf[alldata[k][2]]
-            l.append(alldata[k][4])
-            dictf.update({alldata[k][2] : l})
-        else:
-            dictf[alldata[k][2]] = [alldata[k][4]]
-            courses.append(alldata[k][0])
+    q = 0
+    for k in range(0, len(subject)):
+        if str(course_number[k]) in classGrades.keys() and subject[k] == input[0]:
+            l = np.array(classGrades[str(course_number[k])])
+            r = np.array(grade_data[k])
+            l = np.add(l, r)
+            classGrades.update({str(course_number[k]): l})
+        elif subject[k] == input[0]:
+            classGrades[str(course_number[k])] = np.array(grade_data[k])
+            courses.append(course_title[k])
     gpaAverages = [[]]
     i = 0
-    for k in dictf:
-        aGpa = round(sum(dictf[k]) / len(dictf[k]), 2)
+    for k in classGrades:
+        aGpa = calcGPA(classGrades[k])
         gpaAverages[i].append(courses[i])
         gpaAverages[i].append(k)
         gpaAverages[i].append(str(aGpa))
@@ -149,61 +163,50 @@ def calc_course_average():
     del gpaAverages[-1]
     return gpaAverages
 
-
-
 """
-avegpa_year
-inputs-subject abbreviation
-condenses the combined list combine_lists function so the list has the average gpa for all sections for the given year/seimister
-returns-list with year/seimister, course number and average gpa for that course in that year/seimister
+Note on GPA diffrences. 
+GPA differs between average of averages and overall averages. Classes like CS 101 that have class sizes of varying 
+from ~30 to over 400 will have diffrent GPA's because the GPA of the class of 30 is weighted equally as the GPA of the 
+class of 400. Whereas the whole average every A in the class counts the same. 
+However it later may be nice to have a GPA that holds each year semister equally, but I doubt this 
+would vary much from my overall average. Maybe chart on course varance overtime?
 """
 
+# def calc_course_average():
+#     if not alldata:
+#         return "No course has been selected yet"
+#     classGrades = dict()
+#     courses = []
+#     for k in range(0, len(alldata)):
+#         if alldata[k][2] in classGrades.keys():
+#             l = classGrades[alldata[k][2]]
+#             print(alldata[k][5])
+#             l.append(alldata[k][4])
+#             classGrades.update({alldata[k][2] : l})
+#         else:
+#             classGrades[alldata[k][2]] = [alldata[k][4]]
+#             courses.append(alldata[k][0])
+#     print(classGrades)
+#     gpaAverages = [[]]
+#     i = 0
+#     for k in classGrades:
+#         print(sum(classGrades[k]))
+#         aGpa = round(sum(classGrades[k]) / len(classGrades[k]), 2)
+#         gpaAverages[i].append(courses[i])
+#         gpaAverages[i].append(k)
+#         gpaAverages[i].append(str(aGpa))
+#         gpaAverages.append([])
+#         i += 1
+#     del gpaAverages[-1]
+#     return gpaAverages
 
-def avegpa_year():
-    abrv = input[0]
-    gpa_year = [[]]
-    gpa_sum = 0.0
-    gpa = 0.0
-    num = 1.0
-    index = 0
-    reset = True
-    for k in range(0, len(alldata)):
-        reset = False
-        if (k == 0):
-            gpa_year[index].append(alldata[k][1])
-            reset = True
-        elif (alldata[k][1] not in gpa_year[index]):
-            gpa_year.append([])
-            index = index + 1
-            gpa_year[index].append(alldata[k][1])
-            reset = True
-            gpa = gpa_sum / num
-            gpa = round(gpa, 2)
-            gpa_year[index - 1][2] = gpa
-            gpa = 0.0
-            num = 1.0
-            gpa_sum = 0.0
-        if (alldata[k][2] not in gpa_year[index] and reset == False):
-            gpa_year.append([])
-            index = index + 1
-            gpa_year[index].append(alldata[k][1])
-            gpa_year[index].append(alldata[k][2])
-            gpa_year[index].append(alldata[k][4])
-            gpa = gpa_sum / num
-            gpa = round(gpa, 2)
-            gpa_year[index - 1][2] = gpa
-            gpa = 0.0
-            num = 1.0
-            gpa_sum = alldata[k][4]
-        elif (alldata[k][2] not in gpa_year[index]):
-            gpa_year[index].append(alldata[k][2])
-            gpa_year[index].append(alldata[k][4])
-        else:  # duplicate year and course number (2 or more offerings of that course in a year)
-            num = num + 1
-            gpa_sum = gpa_sum + alldata[k][4]
-    return gpa_year
-
-websiteData = pandas.DataFrame()
+# def make_plots():
+#     ave = getMean()
+#     print(ave)
+#     plt.xlabel('Class')
+#     plt.ylabel('GPA')
+#     plt.show()
+#     plt.plot.bar(ave[:][1], ave[:][2])
 
 def make_dataframe():
     data = pandas.DataFrame(alldata, columns=["Class", "Year and Seimester", "Course Number", "Instructor", "GPA", "# of students"])
@@ -212,12 +215,14 @@ def make_dataframe():
     return data
 
 
+
 def main():
-    # run(input)
+    run("CS")
+
     makedata()
-    agpa = calc_course_average()
-    # print(agpa)
-    # print(alldata)
+    q = getMean()
+    # make_plots()
+    print(q)
 
 if __name__ == '__main__':
     main()
