@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03e3179c-492d-4cbd-8720-beeb7a622953" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataredo.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataredo.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,7 +15,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gpadata.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4920">
+            <state relative-caret-position="487">
               <caret line="328" selection-start-line="328" selection-start-column="2" selection-end-line="328" selection-end-column="30" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
@@ -28,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dataredo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="206" column="14" selection-start-line="206" selection-start-column="14" selection-end-line="206" selection-end-column="14" />
+            <state relative-caret-position="315">
+              <caret line="232" column="69" selection-start-line="232" selection-start-column="69" selection-end-line="232" selection-end-column="69" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -118,8 +117,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1525" />
-    <option name="y" value="40" />
+    <option name="x" value="1734" />
+    <option name="y" value="23" />
     <option name="width" value="1438" />
     <option name="height" value="877" />
   </component>
@@ -267,7 +266,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1525" y="40" width="1438" height="877" extended-state="0" />
+    <frame x="1734" y="23" width="1438" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23500353" />
@@ -330,16 +329,6 @@
     <entry file="file://$PROJECT_DIR$/chooser.py" />
     <entry file="file://$PROJECT_DIR$/Templates/website code.html" />
     <entry file="file://$PROJECT_DIR$/Templates/makedata.html" />
-    <entry file="file://$PROJECT_DIR$/gpadata.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4920">
-          <caret line="328" selection-start-line="328" selection-start-column="2" selection-end-line="328" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Templates/datafile.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -367,10 +356,27 @@
     <entry file="file://$PROJECT_DIR$/uiuc-gpa-dataset.csv">
       <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
+    <entry file="file://$USER_HOME$/.conda/envs/conda/lib/python3.7/site-packages/matplotlib/text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="175" selection-start-line="175" selection-end-line="175" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gpadata.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="328" selection-start-line="328" selection-start-column="2" selection-end-line="328" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dataredo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="206" column="14" selection-start-line="206" selection-start-column="14" selection-end-line="206" selection-end-column="14" />
+        <state relative-caret-position="315">
+          <caret line="232" column="69" selection-start-line="232" selection-start-column="69" selection-end-line="232" selection-end-column="69" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

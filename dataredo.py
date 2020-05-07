@@ -1,8 +1,10 @@
 import pandas
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import numpy as np
+from matplotlib.ticker import ScalarFormatter
+#%matplotlib inline
 
-#first commit
 pandas.set_option('display.max_columns', 500)
 df = pandas.read_csv('uiuc-gpa-dataset.csv')
 grade_data = df[['A+', 'A', 'A-', 'B+', 'B', 'B-', \
@@ -141,6 +143,7 @@ def makedata():
 def getMean():
     classGrades = dict()
     courses = []
+    av = []
     q = 0
     for k in range(0, len(subject)):
         if str(course_number[k]) in classGrades.keys() and subject[k] == input[0]:
@@ -157,11 +160,12 @@ def getMean():
         aGpa = calcGPA(classGrades[k])
         gpaAverages[i].append(courses[i])
         gpaAverages[i].append(k)
-        gpaAverages[i].append(str(aGpa))
+        gpaAverages[i].append(aGpa)
         gpaAverages.append([])
+        av.append(aGpa)
         i += 1
     del gpaAverages[-1]
-    return gpaAverages
+    return gpaAverages, av
 
 """
 Note on GPA diffrences. 
@@ -200,13 +204,74 @@ would vary much from my overall average. Maybe chart on course varance overtime?
 #     del gpaAverages[-1]
 #     return gpaAverages
 
-# def make_plots():
-#     ave = getMean()
-#     print(ave)
-#     plt.xlabel('Class')
-#     plt.ylabel('GPA')
-#     plt.show()
-#     plt.plot.bar(ave[:][1], ave[:][2])
+def make_plots():
+    info, ave = getMean()
+    global fig
+    global ax
+    fig, ax = plt.subplots()
+    ninfo = np.array(info)
+    nave = np.array(ave)
+    print(nave)
+    plt.xlabel('Class')
+    plt.ylabel('GPA')
+    plt.title(input[0])
+    #plt.yticks(np.arange(0.0, 4.0, .2))
+    print(type(nave[0]))
+    #yaxis = np.arange(0.0, 4.0, .2)
+    #plt.autoscale(enable=True, axis= 'y')
+    #plt.bar(ave[0:7, 1], ave[0:7, 2])
+    width = .5
+    plt.xticks(np.arange(0, len(nave), 1), rotation=90, fontsize = 8)
+    #plt.x.ticklabel_format(useOffset=True)
+    #plt.subplots_adjust(bottom=0.3)
+    #width = 1
+    plt.ticklabel_format(useOffset=True)
+    global bars
+    bars = plt.bar(ninfo[:, 1], nave[:], align='center')
+    global annot
+    annot = ax.annotate("", xy=(0, 0), xytext=(-50, 20), textcoords="offset points",
+                        bbox=dict(boxstyle="round", fc="cyan", ec="b", lw=2),
+                        arrowprops=dict(arrowstyle="->"))
+    annot.set_visible(False)
+    #scat = plt.scatter(ninfo[:, 1], nave[:])
+   # plt.bar(ninfo[0:35, 1], nave[0:35], align='center')
+    #plt.tight_layout()
+    cid = fig.canvas.mpl_connect('motion_notify_event', hover)
+    plt.show()
+
+#All anotation code/meothods were obtained from and modified by me:
+# https://stackoverflow.com/questions/50560525/how-to-annotate-the-values-of-x-and-y-while-hovering-mouse-over-the-bar-graph
+
+def update_annot(bar):
+    x = bar.get_x()+bar.get_width()/2.
+    y = bar.get_y()+bar.get_height()
+    annot.xy = (x,y)
+    info, av = getMean()
+    # print(info[0][0])
+    # print(annot.xy[0])
+    #print(type(annot.xy[0])
+    #print(info[int(annot.xy[0])][0])
+    s = 'CS ' + info[int(annot.xy[0])][1] + ' ' + info[int(annot.xy[0])][0] + ' ' + str(annot.xy[1])
+    # print(type(s))
+    # print(s)
+    text = (s).format( x,y )
+    annot.set_text(text)
+    annot.get_bbox_patch().set_alpha(0.4)
+
+
+def hover(event):
+    vis = annot.get_visible()
+    if event.inaxes == ax:
+        for bar in bars:
+            cont, ind = bar.contains(event)
+            if cont:
+                update_annot(bar)
+                annot.set_visible(True)
+                fig.canvas.draw_idle()
+                return
+    if vis:
+        annot.set_visible(False)
+        fig.canvas.draw_idle()
 
 def make_dataframe():
     data = pandas.DataFrame(alldata, columns=["Class", "Year and Seimester", "Course Number", "Instructor", "GPA", "# of students"])
@@ -218,11 +283,10 @@ def make_dataframe():
 
 def main():
     run("CS")
-
     makedata()
     q = getMean()
-    # make_plots()
     print(q)
+    make_plots()
 
 if __name__ == '__main__':
     main()
