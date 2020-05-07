@@ -139,12 +139,99 @@ def makedata():
 
 
 
+def makeDictData():
+    abrv = input[0]
+    number = input[1]
+    year = input[2]
+    global dat
+    dat = dict()
+    global classGrades
+    classGrades = dict()
+    if (abrv not in subject):
+        return "error not a valid subject"
+    i = 0
+    if (year == "" and number == ""):
+        for k in range(0, len(subject)):
+            if (abrv == subject[k]):
+                if (str(course_number[k]) in dat.keys()):
+                    vals = dat[str(course_number[k])]
+                    #l[0].append(course_title[k])
+                    vals[1].append(years[k])
+                    vals[2].append(instructor[k])
+                    vals[3].append(calcGPA(grade_data[k]))
+                    vals[4].append(str(sum(grade_data[k])))
+                    dat.update({str(course_number[k]) : vals})
+                    lets = np.array(classGrades[str(course_number[k])])
+                    lets2 = np.array(grade_data[k])
+                    lets = np.add(lets, lets2)
+                    classGrades.update({str(course_number[k]): lets})
+                    # y = gpas[str(course_number[k])]
+                    # adds = calcGPA(grade_data[k])
+                    # y = np.append(y, adds)
+                    # gpas.update({str(course_number[k]): y})
+                else:
+                    vals = [[], [], [], [], []]
+                    vals[0].append(course_title[k]) #course title
+                    vals[1].append(years[k]) #year/semiester
+                    vals[2].append(instructor[k]) #instructor
+                    vals[3].append(calcGPA(grade_data[k])) #GPA data
+                    vals[4].append(str(sum(grade_data[k]))) #number of students
+                    dat[str(course_number[k])] = vals
+                    classGrades[str(course_number[k])] = np.array(grade_data[k])
+                    #gpas[str(course_number[k])] = np.array(calcGPA(grade_data[k]))
+                    #courses.append(course_title[k])
+        #see note on remove old classes
+        for k in dat:
+            # dat[num[1][0] = the last year of data for the certian class
+            s = dat[k][1][0].split('-')
+            old_classes = []
+            if (int(s[0]) < 2015):
+                old_classes.append(k)
+        #may be able to for k inrange(0, len(dat) above but not sure keeping like this for now
+        for k in old_classes:
+            dat.pop(k)
+            classGrades.pop(k)
 
+        #get mean gpas
+        global gpas
+        gpas = np.array([])
+        for k in classGrades:
+            aGpa = calcGPA(classGrades[k])
+            # gpaAverages[i].append(courses[i])
+            # gpaAverages[i].append(k)
+            # gpaAverages[i].append(aGpa)
+            # gpaAverages.append([])
+            gpas = np.append(gpas, aGpa)
+            i += 1
+    return
+
+
+
+"""
+This function checks to see if the course is old. A course is considered old if it does not have any data from the past 
+7 semisters. Right now the latest data we have is Fall 2019 so the Course would need Data from 2016 sp.
+This needs to be manually updated as new data comes in. Maybe fix later?
+@num: The course number checking in string form
+returns nothing
+"""
+def remove_Old_Classes(num):
+    sem = 'fa'
+    for k in dat:
+        #dat[num[1][0] = the last year of data for the certian class
+        s = dat[num][1][0].split('-')
+        if (int(s[0]) < 2015):
+            dat.pop(num)
+    return
+
+
+
+
+
+#make global varibles and return numpys in this method
 def getMean():
     classGrades = dict()
     courses = []
     av = []
-    q = 0
     for k in range(0, len(subject)):
         if str(course_number[k]) in classGrades.keys() and subject[k] == input[0]:
             l = np.array(classGrades[str(course_number[k])])
@@ -205,36 +292,25 @@ would vary much from my overall average. Maybe chart on course varance overtime?
 #     return gpaAverages
 
 def make_plots():
-    info, ave = getMean()
+    # info, ave = getMean()
     global fig
     global ax
     fig, ax = plt.subplots()
-    ninfo = np.array(info)
-    nave = np.array(ave)
-    print(nave)
+    # ninfo = np.array(info)
+    # nave = np.array(ave)
     plt.xlabel('Class')
     plt.ylabel('GPA')
     plt.title(input[0])
-    #plt.yticks(np.arange(0.0, 4.0, .2))
-    print(type(nave[0]))
-    #yaxis = np.arange(0.0, 4.0, .2)
-    #plt.autoscale(enable=True, axis= 'y')
-    #plt.bar(ave[0:7, 1], ave[0:7, 2])
-    width = .5
-    plt.xticks(np.arange(0, len(nave), 1), rotation=90, fontsize = 8)
-    #plt.x.ticklabel_format(useOffset=True)
-    #plt.subplots_adjust(bottom=0.3)
-    #width = 1
+    plt.xticks(np.arange(0, len(gpas), 1), rotation=90, fontsize = 8)
     plt.ticklabel_format(useOffset=True)
     global bars
-    bars = plt.bar(ninfo[:, 1], nave[:], align='center')
+    bars = plt.bar(dat.keys(), gpas[:], align='center')
     global annot
     annot = ax.annotate("", xy=(0, 0), xytext=(-50, 20), textcoords="offset points",
                         bbox=dict(boxstyle="round", fc="cyan", ec="b", lw=2),
                         arrowprops=dict(arrowstyle="->"))
     annot.set_visible(False)
-    #scat = plt.scatter(ninfo[:, 1], nave[:])
-   # plt.bar(ninfo[0:35, 1], nave[0:35], align='center')
+    #plt.bar(ninfo[0:35, 1], nave[0:35], align='center')
     #plt.tight_layout()
     cid = fig.canvas.mpl_connect('motion_notify_event', hover)
     plt.show()
@@ -246,14 +322,10 @@ def update_annot(bar):
     x = bar.get_x()+bar.get_width()/2.
     y = bar.get_y()+bar.get_height()
     annot.xy = (x,y)
-    info, av = getMean()
-    # print(info[0][0])
-    # print(annot.xy[0])
-    #print(type(annot.xy[0])
-    #print(info[int(annot.xy[0])][0])
-    s = 'CS ' + info[int(annot.xy[0])][1] + ' ' + info[int(annot.xy[0])][0] + ' ' + str(annot.xy[1])
-    # print(type(s))
-    # print(s)
+    #code to get xvalue of bar chart
+    yvals = list(dat.keys())
+    xval = yvals[int(annot.xy[0])]
+    s = input[0] + ' ' + str(xval) + ' ' + dat[xval][0][0] + ' ' + str(annot.xy[1])
     text = (s).format( x,y )
     annot.set_text(text)
     annot.get_bbox_patch().set_alpha(0.4)
@@ -284,8 +356,12 @@ def make_dataframe():
 def main():
     run("CS")
     makedata()
-    q = getMean()
-    print(q)
+    makeDictData()
+    # print(dat['231'])
+    # print(dat)
+    # print(classGrades)
+    # print(gpas)
+    #gpas = dat.values()
     make_plots()
 
 if __name__ == '__main__':

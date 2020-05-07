@@ -27,8 +27,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dataredo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="232" column="69" selection-start-line="232" selection-start-column="69" selection-end-line="232" selection-end-column="69" />
+            <state relative-caret-position="426">
+              <caret line="332" column="2" lean-forward="true" selection-start-line="332" selection-start-column="2" selection-end-line="332" selection-end-column="2" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -90,6 +90,7 @@
       <find>alldata</find>
       <find>subject</find>
       <find>print</find>
+      <find>gpas</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -117,7 +118,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1734" />
+    <option name="x" value="1702" />
     <option name="y" value="23" />
     <option name="width" value="1438" />
     <option name="height" value="877" />
@@ -266,7 +267,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1734" y="23" width="1438" height="877" extended-state="0" />
+    <frame x="1702" y="23" width="1438" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23500353" />
@@ -375,8 +376,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dataredo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="232" column="69" selection-start-line="232" selection-start-column="69" selection-end-line="232" selection-end-column="69" />
+        <state relative-caret-position="426">
+          <caret line="332" column="2" lean-forward="true" selection-start-line="332" selection-start-column="2" selection-end-line="332" selection-end-column="2" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
