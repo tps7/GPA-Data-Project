@@ -1,5 +1,5 @@
 import pandas
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt, mpld3
 import matplotlib as mpl
 import numpy as np
 from matplotlib.ticker import ScalarFormatter
@@ -286,6 +286,8 @@ def make_plots():
     #plt.tight_layout()
     cid = fig.canvas.mpl_connect('motion_notify_event', hover)
     plt.show()
+    # mpld3 = plt
+    # mpld3.show()
 
 #All anotation code/meothods were obtained from and modified by me:
 # https://stackoverflow.com/questions/50560525/how-to-annotate-the-values-of-x-and-y-while-hovering-mouse-over-the-bar-graph
@@ -297,8 +299,9 @@ def update_annot(bar):
     #code to get xvalue of bar chart
     yvals = list(dat.keys())
     xval = yvals[int(annot.xy[0])]
-    s = input[0] + ' ' + str(xval) + ' ' + dat[xval][1][0] + ' ' + str(annot.xy[1])
+    s = input[0] + ' ' + str(xval) + ' ' + dat[xval][0][0] + ' ' + str(annot.xy[1])
     text = (s).format( x,y )
+    print('adfasd')
     annot.set_text(text)
     annot.get_bbox_patch().set_alpha(0.4)
 
@@ -328,12 +331,12 @@ def main():
     run("CS")
     makedata()
     makeDictData()
-    # print(dat)
+    # print(dat['374'])
     # print(classGrades)
     # print(gpas)
     #print(dat.keys())
     #gpas = dat.values()
-    make_plots()
+    #make_plots()
 
 if __name__ == '__main__':
     main()
