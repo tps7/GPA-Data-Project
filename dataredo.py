@@ -181,16 +181,18 @@ def makeDictData():
                     #gpas[str(course_number[k])] = np.array(calcGPA(grade_data[k]))
                     #courses.append(course_title[k])
         #see note on remove old classes
+        #need to add it so it removes by semister or could just rotate between showing 7 and 8 semisters
+        old_classes = []
         for k in dat:
             # dat[num[1][0] = the last year of data for the certian class
             s = dat[k][1][0].split('-')
-            old_classes = []
-            if (int(s[0]) < 2015):
+            #print(s)
+            if (int(s[0]) < 2016):
                 old_classes.append(k)
         #may be able to for k inrange(0, len(dat) above but not sure keeping like this for now
-        for k in old_classes:
-            dat.pop(k)
-            classGrades.pop(k)
+        for k in range(0, len(old_classes)):
+            dat.pop(old_classes[k])
+            classGrades.pop(old_classes[k])
 
         #get mean gpas
         global gpas
@@ -214,45 +216,15 @@ This needs to be manually updated as new data comes in. Maybe fix later?
 @num: The course number checking in string form
 returns nothing
 """
-def remove_Old_Classes(num):
+def remove_Old_Classes():
     sem = 'fa'
     for k in dat:
         #dat[num[1][0] = the last year of data for the certian class
-        s = dat[num][1][0].split('-')
+        s = dat[k][1][0].split('-')
         if (int(s[0]) < 2015):
-            dat.pop(num)
+            dat.pop(k)
     return
 
-
-
-
-
-#make global varibles and return numpys in this method
-def getMean():
-    classGrades = dict()
-    courses = []
-    av = []
-    for k in range(0, len(subject)):
-        if str(course_number[k]) in classGrades.keys() and subject[k] == input[0]:
-            l = np.array(classGrades[str(course_number[k])])
-            r = np.array(grade_data[k])
-            l = np.add(l, r)
-            classGrades.update({str(course_number[k]): l})
-        elif subject[k] == input[0]:
-            classGrades[str(course_number[k])] = np.array(grade_data[k])
-            courses.append(course_title[k])
-    gpaAverages = [[]]
-    i = 0
-    for k in classGrades:
-        aGpa = calcGPA(classGrades[k])
-        gpaAverages[i].append(courses[i])
-        gpaAverages[i].append(k)
-        gpaAverages[i].append(aGpa)
-        gpaAverages.append([])
-        av.append(aGpa)
-        i += 1
-    del gpaAverages[-1]
-    return gpaAverages, av
 
 """
 Note on GPA diffrences. 
@@ -325,11 +297,10 @@ def update_annot(bar):
     #code to get xvalue of bar chart
     yvals = list(dat.keys())
     xval = yvals[int(annot.xy[0])]
-    s = input[0] + ' ' + str(xval) + ' ' + dat[xval][0][0] + ' ' + str(annot.xy[1])
+    s = input[0] + ' ' + str(xval) + ' ' + dat[xval][1][0] + ' ' + str(annot.xy[1])
     text = (s).format( x,y )
     annot.set_text(text)
     annot.get_bbox_patch().set_alpha(0.4)
-
 
 def hover(event):
     vis = annot.get_visible()
@@ -357,10 +328,10 @@ def main():
     run("CS")
     makedata()
     makeDictData()
-    # print(dat['231'])
     # print(dat)
     # print(classGrades)
     # print(gpas)
+    #print(dat.keys())
     #gpas = dat.values()
     make_plots()
 
